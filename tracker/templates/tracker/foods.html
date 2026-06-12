@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITFUEL - Foods</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#050505;
+            color:white;
+        }
+
+        .navbar{
+            width:100%;
+            height:90px;
+            background:#0d0d0d;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 50px;
+            border-bottom:1px solid #1f1f1f;
+        }
+
+        .logo{
+            font-size:42px;
+            font-weight:900;
+        }
+
+        .logo span{
+            color:#c8ff1a;
+        }
+
+        .nav-links{
+            display:flex;
+            gap:15px;
+        }
+
+        .nav-links a{
+            color:white;
+            text-decoration:none;
+            background:#161616;
+            padding:12px 22px;
+            border-radius:30px;
+            transition:0.3s;
+        }
+
+        .nav-links a:hover{
+            background:#c8ff1a;
+            color:black;
+        }
+
+        .nav-links a.active{
+            background:#c8ff1a;
+            color:black;
+            font-weight:bold;
+        }
+
+        .container{
+            max-width:1200px;
+            margin:auto;
+            padding:40px;
+        }
+
+        .page-title{
+            font-size:60px;
+            margin-bottom:15px;
+        }
+
+        .page-title span{
+            color:#c8ff1a;
+        }
+
+        .subtitle{
+            color:#9b9b9b;
+            margin-bottom:40px;
+            font-size:18px;
+        }
+
+        .card{
+            background:#111;
+            padding:30px;
+            border-radius:20px;
+            margin-bottom:40px;
+            border:1px solid #222;
+        }
+
+        .card h2{
+            margin-bottom:25px;
+        }
+
+        input,
+        select{
+            width:100%;
+            padding:15px;
+            margin-bottom:20px;
+            background:#1a1a1a;
+            border:1px solid #333;
+            color:white;
+            border-radius:10px;
+        }
+
+        input:focus,
+        select:focus{
+            outline:none;
+            border-color:#c8ff1a;
+        }
+
+        button{
+            background:#c8ff1a;
+            border:none;
+            padding:15px 25px;
+            border-radius:10px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        button:hover{
+            opacity:0.9;
+        }
+
+        .logs-title{
+            margin-bottom:20px;
+            font-size:28px;
+        }
+
+        .log-item{
+            background:#161616;
+            padding:20px;
+            border-radius:15px;
+            margin-bottom:15px;
+            border:1px solid #222;
+        }
+
+        .food-name{
+            color:#c8ff1a;
+            font-weight:bold;
+            font-size:18px;
+        }
+
+        .delete-btn{
+            background:red;
+            color:white;
+            padding:10px 15px;
+            border:none;
+            border-radius:10px;
+            margin-top:10px;
+        }
+
+        .delete-btn:hover{
+            opacity:0.85;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            FIT<span>FUEL</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/foods/" class="active">
+                Foods
+            </a>
+
+            <a href="/activities/">
+                Activities
+            </a>
+
+            <a href="/summary/">
+                Summary
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <h1 class="page-title">
+            FOOD <span>TRACKER</span>
+        </h1>
+
+        <p class="subtitle">
+            Add foods and monitor your daily nutrition intake.
+        </p>
+
+        <div class="card">
+
+            <h2>Add Food</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ food_form.as_p }}
+
+                <button type="submit">
+                    Add Food
+                </button>
+
+            </form>
+
+        </div>
+
+        <h2 class="logs-title">
+            Today's Foods
+        </h2>
+
+        {% for log in food_logs %}
+
+            <div class="log-item">
+
+                <div class="food-name">
+                    {{ log.food.name }}
+                </div>
+
+                <br>
+
+                Quantity: {{ log.quantity_grams }} g
+
+                <br><br>
+
+                <a href="/delete-food/{{ log.id }}/">
+
+                    <button class="delete-btn">
+                        Delete
+                    </button>
+
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            <div class="log-item">
+                No foods added today.
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+
+</html>

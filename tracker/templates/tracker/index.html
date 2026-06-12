@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITFUEL</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#050505;
+            color:white;
+            overflow-x:hidden;
+        }
+
+        /* HEADER */
+
+        .header{
+            width:100%;
+            height:90px;
+            background:#0d0d0d;
+            border-bottom:1px solid #1d1d1d;
+
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+
+            padding:0 50px;
+
+            position:sticky;
+            top:0;
+            z-index:1000;
+        }
+
+        .logo{
+            font-size:42px;
+            font-weight:900;
+        }
+
+        .logo span{
+            color:#c8ff1a;
+        }
+
+        /* NAVIGATION */
+
+        .nav{
+            display:flex;
+            gap:20px;
+            background:#121212;
+            padding:10px;
+            border-radius:40px;
+            border:1px solid #262626;
+        }
+
+        .nav button{
+            background:transparent;
+            border:none;
+            color:#a0a0a0;
+            padding:12px 24px;
+            border-radius:30px;
+            cursor:pointer;
+            font-size:15px;
+            transition:0.3s;
+        }
+
+        .nav button:hover{
+            color:white;
+        }
+
+        .nav button.active{
+            background:#c8ff1a;
+            color:black;
+            font-weight:bold;
+        }
+
+        /* SECTIONS */
+
+        .section{
+            min-height:100vh;
+            padding:60px;
+        }
+
+        .section-id{
+            color:#c8ff1a;
+            letter-spacing:3px;
+            font-size:13px;
+            margin-bottom:20px;
+        }
+
+        .title{
+            font-size:70px;
+            font-weight:900;
+            line-height:1;
+            margin-bottom:20px;
+        }
+
+        .title span{
+            color:#c8ff1a;
+        }
+
+        .subtitle{
+            color:#8a8a8a;
+            font-size:18px;
+            margin-bottom:40px;
+            max-width:700px;
+            line-height:1.7;
+        }
+
+        /* CARDS */
+
+        .card{
+            background:#101010;
+            border:1px solid #222;
+            border-radius:25px;
+            padding:30px;
+            margin-bottom:25px;
+        }
+
+        /* FORMS */
+
+        form{
+            margin-top:20px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:10px;
+            color:#9f9f9f;
+            font-size:14px;
+        }
+
+        input,
+        select{
+            width:100%;
+            padding:18px;
+            border-radius:15px;
+            border:1px solid #292929;
+            background:#161616;
+            color:white;
+            margin-bottom:22px;
+            font-size:15px;
+        }
+
+        input:focus,
+        select:focus{
+            outline:none;
+            border:1px solid #c8ff1a;
+        }
+
+        /* BUTTON */
+
+        .btn{
+            width:100%;
+            padding:18px;
+            border:none;
+            border-radius:15px;
+            background:#c8ff1a;
+            color:black;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .btn:hover{
+            transform:translateY(-2px);
+            opacity:0.9;
+        }
+
+        /* DELETE BUTTON */
+
+        .delete-btn{
+
+            background:#ff3d3d;
+            border:none;
+            color:white;
+
+            padding:10px 18px;
+
+            border-radius:10px;
+
+            cursor:pointer;
+
+            font-weight:bold;
+
+            transition:0.3s;
+        }
+
+        .delete-btn:hover{
+
+            opacity:0.8;
+        }
+
+        /* SUMMARY GRID */
+
+        .summary-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+            gap:25px;
+        }
+
+        .summary-card{
+            background:#111111;
+            border:1px solid #252525;
+            border-radius:22px;
+            padding:40px;
+            text-align:center;
+        }
+
+        .summary-value{
+            font-size:55px;
+            font-weight:900;
+            color:#c8ff1a;
+            margin-bottom:15px;
+        }
+
+        .summary-label{
+            color:#9d9d9d;
+            letter-spacing:2px;
+        }
+
+        /* LOGS */
+
+        .logs{
+            margin-top:40px;
+        }
+
+        .log-title{
+            font-size:30px;
+            margin-bottom:20px;
+        }
+
+        .log-item{
+            background:#121212;
+            border:1px solid #252525;
+            border-radius:16px;
+            padding:18px;
+            margin-bottom:15px;
+        }
+
+        .highlight{
+            color:#c8ff1a;
+            font-weight:bold;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:900px){
+
+            .header{
+                flex-direction:column;
+                height:auto;
+                gap:20px;
+                padding:20px;
+            }
+
+            .title{
+                font-size:50px;
+            }
+
+            .section{
+                padding:40px 20px;
+            }
+
+            .nav{
+                width:100%;
+                justify-content:center;
+                flex-wrap:wrap;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="logo">
+            FIT<span>FUEL</span>
+        </div>
+
+        <div class="nav">
+
+            <button class="active" onclick="scrollToSection('foods')">
+                Foods
+            </button>
+
+            <button onclick="scrollToSection('activities')">
+                Activities
+            </button>
+
+            <button onclick="scrollToSection('summary')">
+                Summary
+            </button>
+
+        </div>
+
+        <div></div>
+
+    </div>
+
+    <!-- FOOD SECTION -->
+
+    <section id="foods" class="section">
+
+        <div class="section-id">
+            // 01 - FOOD SECTION
+        </div>
+
+        <div class="title">
+            PICK YOUR <span>FOODS</span>
+        </div>
+
+        <div class="subtitle">
+            Add foods to your tracker and monitor your daily calorie intake and nutrition.
+        </div>
+
+        <div class="card">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ food_form.as_p }}
+
+                <button type="submit" name="food_submit" class="btn">
+                    Add Food
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="logs">
+
+            <div class="log-title">
+                Today's Foods
+            </div>
+
+            {% for log in food_logs %}
+
+                <div class="log-item">
+
+                    <span class="highlight">
+                        {{ log.food.name }}
+                    </span>
+
+                    — {{ log.quantity_grams }} g
+
+                    <br><br>
+
+                    <a href="/delete-food/{{ log.id }}/">
+
+                        <button class="delete-btn">
+                            Delete
+                        </button>
+
+                    </a>
+
+                </div>
+
+            {% empty %}
+
+                <div class="log-item">
+                    No foods added yet.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- ACTIVITY SECTION -->
+
+    <section id="activities" class="section">
+
+        <div class="section-id">
+            // 02 - ACTIVITY SECTION
+        </div>
+
+        <div class="title">
+            TRACK YOUR <span>ACTIVITIES</span>
+        </div>
+
+        <div class="subtitle">
+            Log workouts and estimate calories burned using MET calculations.
+        </div>
+
+        <div class="card">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ activity_form.as_p }}
+
+                <button type="submit" name="activity_submit" class="btn">
+                    Add Activity
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="logs">
+
+            <div class="log-title">
+                Today's Activities
+            </div>
+
+            {% for log in activity_logs %}
+
+                <div class="log-item">
+
+                    <span class="highlight">
+                        {{ log.activity.name }}
+                    </span>
+
+                    — {{ log.duration_minutes }} minutes
+
+                    <br><br>
+
+                    <a href="/delete-activity/{{ log.id }}/">
+
+                        <button class="delete-btn">
+                            Delete
+                        </button>
+
+                    </a>
+
+                </div>
+
+            {% empty %}
+
+                <div class="log-item">
+                    No activities added yet.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- SUMMARY SECTION -->
+
+    <section id="summary" class="section">
+
+        <div class="section-id">
+            // 03 - DAILY SUMMARY
+        </div>
+
+        <div class="title">
+            TODAY'S <span>FUEL</span>
+        </div>
+
+        <div class="subtitle">
+            Your nutrition summary and calorie balance for today.
+        </div>
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+                <div class="summary-value">
+                    {{ calories_consumed }}
+                </div>
+
+                <div class="summary-label">
+                    CALORIES CONSUMED
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-value">
+                    {{ calories_burned }}
+                </div>
+
+                <div class="summary-label">
+                    CALORIES BURNED
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-value">
+                    {{ net_calories }}
+                </div>
+
+                <div class="summary-label">
+                    NET CALORIES
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-value">
+                    {{ protein }}g
+                </div>
+
+                <div class="summary-label">
+                    PROTEIN
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-value">
+                    {{ carbs }}g
+                </div>
+
+                <div class="summary-label">
+                    CARBS
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-value">
+                    {{ fat }}g
+                </div>
+
+                <div class="summary-label">
+                    FAT
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function scrollToSection(sectionId){
+
+            document.getElementById(sectionId).scrollIntoView({
+                behavior:'smooth'
+            });
+
+            let buttons = document.querySelectorAll('.nav button');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            event.target.classList.add('active');
+        }
+
+    </script>
+
+</body>
+
+</html>

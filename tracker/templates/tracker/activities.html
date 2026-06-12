@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITFUEL - Activities</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            background:#050505;
+            color:white;
+        }
+
+        .navbar{
+            width:100%;
+            height:90px;
+            background:#0d0d0d;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:0 50px;
+            border-bottom:1px solid #1f1f1f;
+        }
+
+        .logo{
+            font-size:42px;
+            font-weight:900;
+        }
+
+        .logo span{
+            color:#c8ff1a;
+        }
+
+        .nav-links{
+            display:flex;
+            gap:15px;
+        }
+
+        .nav-links a{
+            color:white;
+            text-decoration:none;
+            background:#161616;
+            padding:12px 22px;
+            border-radius:30px;
+            transition:0.3s;
+        }
+
+        .nav-links a:hover{
+            background:#c8ff1a;
+            color:black;
+        }
+
+        .nav-links a.active{
+            background:#c8ff1a;
+            color:black;
+            font-weight:bold;
+        }
+
+        .container{
+            max-width:1200px;
+            margin:auto;
+            padding:40px;
+        }
+
+        .page-title{
+            font-size:60px;
+            margin-bottom:15px;
+        }
+
+        .page-title span{
+            color:#c8ff1a;
+        }
+
+        .subtitle{
+            color:#999;
+            font-size:18px;
+            margin-bottom:40px;
+        }
+
+        .card{
+            background:#111;
+            border:1px solid #222;
+            border-radius:20px;
+            padding:30px;
+            margin-bottom:40px;
+        }
+
+        .card h2{
+            margin-bottom:25px;
+        }
+
+        input,
+        select{
+            width:100%;
+            padding:15px;
+            margin-bottom:20px;
+            background:#1a1a1a;
+            border:1px solid #333;
+            color:white;
+            border-radius:10px;
+        }
+
+        input:focus,
+        select:focus{
+            outline:none;
+            border-color:#c8ff1a;
+        }
+
+        button{
+            background:#c8ff1a;
+            border:none;
+            padding:15px 25px;
+            border-radius:10px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        button:hover{
+            opacity:0.9;
+        }
+
+        .logs-title{
+            margin-bottom:20px;
+            font-size:28px;
+        }
+
+        .log-item{
+            background:#161616;
+            border:1px solid #222;
+            padding:20px;
+            border-radius:15px;
+            margin-bottom:15px;
+        }
+
+        .activity-name{
+            color:#c8ff1a;
+            font-weight:bold;
+            font-size:18px;
+        }
+
+        .delete-btn{
+            background:red;
+            color:white;
+            padding:10px 15px;
+            border:none;
+            border-radius:10px;
+            margin-top:10px;
+        }
+
+        .delete-btn:hover{
+            opacity:0.85;
+        }
+
+        @media(max-width:900px){
+
+            .navbar{
+                flex-direction:column;
+                height:auto;
+                gap:20px;
+                padding:20px;
+            }
+
+            .page-title{
+                font-size:45px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="navbar">
+
+        <div class="logo">
+            FIT<span>FUEL</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/foods/">
+                Foods
+            </a>
+
+            <a href="/activities/" class="active">
+                Activities
+            </a>
+
+            <a href="/summary/">
+                Summary
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <h1 class="page-title">
+            ACTIVITY <span>TRACKER</span>
+        </h1>
+
+        <p class="subtitle">
+            Record your physical activities and estimate calories burned using MET values.
+        </p>
+
+        <div class="card">
+
+            <h2>Add Activity</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                {{ activity_form.as_p }}
+
+                <button type="submit">
+                    Add Activity
+                </button>
+
+            </form>
+
+        </div>
+
+        <h2 class="logs-title">
+            Today's Activities
+        </h2>
+
+        {% for log in activity_logs %}
+
+            <div class="log-item">
+
+                <div class="activity-name">
+                    {{ log.activity.name }}
+                </div>
+
+                <br>
+
+                Duration: {{ log.duration_minutes }} minutes
+
+                <br>
+
+                Weight: {{ log.body_weight_kg }} kg
+
+                <br><br>
+
+                <a href="/delete-activity/{{ log.id }}/">
+
+                    <button class="delete-btn">
+                        Delete
+                    </button>
+
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            <div class="log-item">
+                No activities added today.
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+
+</html>
