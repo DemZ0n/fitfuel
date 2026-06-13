@@ -227,7 +227,20 @@
 
                 {% csrf_token %}
 
-                {{ activity_form.as_p }}
+                {{ activity_form.non_field_errors }}
+                
+                {% for field in activity_form %}
+                    <p>{{ field.label }}</p>
+                    {{ field }}
+                
+                    {% for error in field.errors %}
+                        <p style="color:red;">
+                            {{ error }}
+                        </p>
+                        
+                    {% endfor %}
+                {% endfor %}
+
 
                 <button type="submit">
                     Add Activity
