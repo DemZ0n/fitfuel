@@ -6,21 +6,10 @@ from .views import (
     activities,
     summary,
     delete_food,
-    delete_activity
+    delete_activity,
+    create_admin
 )
-from django.http import HttpResponse
-from django.contrib.auth.models import User
 
-def create_admin(request):
-    if not User.objects.filter(username='admin').exists():
-        User.objects.create_superuser(
-            'admin',
-            'admin@gmail.com',
-            'Admin123456'
-        )
-        return HttpResponse("Admin created")
-
-    return HttpResponse("Admin already exists")
 
 urlpatterns = [
 
@@ -35,4 +24,6 @@ urlpatterns = [
     path('delete-food/<int:log_id>/', delete_food),
 
     path('delete-activity/<int:log_id>/', delete_activity),
+
+    path('create-admin/', create_admin),
 ]
