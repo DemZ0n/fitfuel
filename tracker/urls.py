@@ -8,6 +8,19 @@ from .views import (
     delete_food,
     delete_activity
 )
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
+def create_admin(request):
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            'admin',
+            'admin@gmail.com',
+            'Admin123456'
+        )
+        return HttpResponse("Admin created")
+
+    return HttpResponse("Admin already exists")
 
 urlpatterns = [
 
