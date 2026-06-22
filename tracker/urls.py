@@ -6,8 +6,10 @@ from .views import (
     activities,
     summary,
     delete_food,
-    delete_activity
+    delete_activity,
+    create_admin
 )
+
 
 urlpatterns = [
 
@@ -22,4 +24,6 @@ urlpatterns = [
     path('delete-food/<int:log_id>/', delete_food),
 
     path('delete-activity/<int:log_id>/', delete_activity),
+
+    path('create-admin/', create_admin),
 ]

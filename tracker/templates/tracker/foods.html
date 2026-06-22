@@ -210,8 +210,21 @@
 
                 {% csrf_token %}
 
-                {{ food_form.as_p }}
+                {{ food_form.non_field_errors }}
+                
+                {% for field in food_form %}
+                    <p>{{ field.label }}</p>
+                    {{ field }}
+                
+                    {% for error in field.errors %}
+                        <p style="color:red;">
+                            {{ error }}
+                        </p>
+                        
+                    {% endfor %}
+                {% endfor %}
 
+                
                 <button type="submit">
                     Add Food
                 </button>
