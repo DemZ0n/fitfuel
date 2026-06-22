@@ -13,8 +13,19 @@ class Food(models.Model):
 
 
 class Activity(models.Model):
+    CATEGORY_CHOICES = [
+        ('Cardio', 'Cardio'),
+        ('Gym', 'Gym'),
+    ]
+
     name = models.CharField(max_length=100)
-    met_value = models.FloatField()  # MET value
+    category = models.CharField(
+    max_length=20,
+    choices=CATEGORY_CHOICES,
+    default='Cardio'
+    )
+    met_value = models.FloatField()
+    target_muscle = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.name
@@ -37,9 +48,15 @@ class FoodLog(models.Model):
 # -----------------------
 class ActivityLog(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
+
     duration_minutes = models.FloatField()
     body_weight_kg = models.FloatField()
+
+    sets = models.IntegerField(null=True, blank=True)
+    reps = models.IntegerField(null=True, blank=True)
+    weight_lifted_kg = models.FloatField(null=True, blank=True)
+
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.activity.name} - {self.duration_minutes} min"
+        return f"{self.activity.name}"

@@ -174,7 +174,28 @@
             }
 
         }
+        
+        .gym-row{
+            display:flex;
+            gap:15px;
+            margin-bottom:20px;
+        }
+        
+        .gym-field{
+            flex:1;
+        }
+        
+        .gym-field input{
+            margin-bottom:0;
+        }
+        
+        label{
+            display:block;
+            margin-bottom:8px;
+            font-weight:bold;
+        }
 
+        
     </style>
 
 </head>
@@ -220,21 +241,45 @@
         </p>
 
         <div class="card">
-
+            
             <h2>Add Activity</h2>
-
+            
             <form method="POST">
-
+                
                 {% csrf_token %}
-
-                {{ activity_form.as_p }}
-
+                
+                <label>Activity</label>
+                {{ activity_form.activity }}
+                
+                <label>Duration (minutes)</label>
+                {{ activity_form.duration_minutes }}
+                
+                <label>Body Weight (kg)</label>
+                {{ activity_form.body_weight_kg }}
+                
+                <div class="gym-row">
+                    
+                    <div class="gym-field">
+                        <label>Sets</label>
+                        {{ activity_form.sets }}
+                    </div>
+                    
+                    <div class="gym-field">
+                        <label>Reps</label>
+                        {{ activity_form.reps }}
+                    </div>
+                
+                </div>
+                
+                <label>Weight Lifted (kg)</label>
+                {{ activity_form.weight_lifted_kg }}
+                
                 <button type="submit">
                     Add Activity
                 </button>
-
+            
             </form>
-
+        
         </div>
 
         <h2 class="logs-title">
@@ -248,23 +293,38 @@
                 <div class="activity-name">
                     {{ log.activity.name }}
                 </div>
-
+                
                 <br>
-
+                
                 Duration: {{ log.duration_minutes }} minutes
-
+                
                 <br>
-
-                Weight: {{ log.body_weight_kg }} kg
-
+                
+                Body Weight: {{ log.body_weight_kg }} kg
+                
+                {% if log.sets %}
+                <br>
+                Sets: {{ log.sets }}
+                {% endif %}
+                
+                {% if log.reps %}
+                <br>
+                Reps: {{ log.reps }}
+                {% endif %}
+                
+                {% if log.weight_lifted_kg %}
+                <br>
+                Weight Lifted: {{ log.weight_lifted_kg }} kg
+                {% endif %}
+                
                 <br><br>
-
+                
                 <a href="/delete-activity/{{ log.id }}/">
-
+                    
                     <button class="delete-btn">
                         Delete
                     </button>
-
+                
                 </a>
 
             </div>

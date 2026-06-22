@@ -5,3 +5,4 @@ admin.site.register(Food)
 admin.site.register(Activity)
 admin.site.register(FoodLog)
 admin.site.register(ActivityLog)
+
