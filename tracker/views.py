@@ -109,14 +109,30 @@ def summary(request):
     calories_burned = 0
 
     for log in activity_logs:
-
+        
         duration_hours = log.duration_minutes / 60
-
-        calories_burned += (
+        
+        base_calories = (
             log.activity.met_value *
             log.body_weight_kg *
             duration_hours
         )
+        
+        if log.activity.category == "Strength Training":
+            
+            strength_bonus = (
+                log.sets *
+                log.reps *
+                log.weight_lifted_kg *
+                0.01
+            )
+            
+            calories_burned += (
+                base_calories +
+                strength_bonus
+            )
+        else:
+            calories_burned += base_calories
 
     net_calories = calories_consumed - calories_burned
 
