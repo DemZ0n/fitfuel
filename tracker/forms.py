@@ -49,5 +49,32 @@ class ActivityLogForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Body weight must be greater than 0."
             )
-
+        return weight
+    
+    def clean_sets(self):
+        sets = self.cleaned_data['sets']
+        
+        if sets < 0:
+            raise forms.ValidationError(
+                "Sets cannot be negative."
+                )
+        return sets
+        
+    def clean_reps(self):
+        reps = self.cleaned_data['reps']
+        
+        if reps < 0:
+            raise forms.ValidationError(
+                "Reps cannot be negative."
+                )
+        return reps
+    
+    def clean_weight_lifted_kg(self):
+        weight = self.cleaned_data['weight_lifted_kg']
+        
+        if weight < 0:
+            raise forms.ValidationError(
+                "Weight lifted cannot be negative."
+                )
+            
         return weight

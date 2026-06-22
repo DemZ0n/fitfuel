@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 class Food(models.Model):
     name = models.CharField(max_length=100)
@@ -52,10 +53,21 @@ class ActivityLog(models.Model):
     duration_minutes = models.FloatField()
     body_weight_kg = models.FloatField()
 
-    sets = models.IntegerField(null=True, blank=True)
-    reps = models.IntegerField(null=True, blank=True)
-    weight_lifted_kg = models.FloatField(null=True, blank=True)
-
+    sets = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0)]
+        )
+    
+    reps = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0)]
+        )
+    
+    weight_lifted_kg = models.FloatField(
+        default=0,
+        validators=[MinValueValidator(0)]
+        )
+    
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
