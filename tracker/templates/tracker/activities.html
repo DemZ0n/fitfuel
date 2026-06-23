@@ -189,6 +189,10 @@
             margin-bottom:0;
         }
         
+        #gym-fields{
+            display:none;
+        }
+        
         label{
             display:block;
             margin-bottom:8px;
@@ -250,7 +254,17 @@
                 {{ activity_form.non_field_errors }}
                 
                 <label>Activity</label>
-                {{ activity_form.activity }}
+                <select name="activity" id="activity-select">
+                    
+                {% for choice in activity_form.activity.field.queryset %}
+                    <option
+                        value="{{ choice.id }}"
+                        data-category="{{ choice.category }}"
+                    >
+                        {{ choice.name }}
+                    </option>
+                {% endfor %}
+                </select>
                 
                 {% for error in activity_form.activity.errors %}
                 <p style="color:red;">
@@ -276,41 +290,44 @@
                 </p>
                 {% endfor %}
                 
-                <div class="gym-row">
+                <div id="gym-fields">
                     
-                    <div class="gym-field">
-                        <label>Sets</label>
-                        {{ activity_form.sets }}
+                    <div class="gym-row">
                         
-                        {% for error in activity_form.sets.errors %}
-                        <p style="color:red;">
-                            {{ error }}
-                        </p>
-                        {% endfor %}
+                        <div class="gym-field">
+                            <label>Sets</label>
+                            {{ activity_form.sets }}
+                            
+                            {% for error in activity_form.sets.errors %}
+                            <p style="color:red;">
+                                {{ error }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="gym-field">
+                            <label>Reps</label>
+                            {{ activity_form.reps }}
+                            
+                            {% for error in activity_form.reps.errors %}
+                            <p style="color:red;">
+                                {{ error }}
+                            </p>
+                            {% endfor %}
+                        </div>
+                    
                     </div>
                     
-                    <div class="gym-field">
-                        <label>Reps</label>
-                        {{ activity_form.reps }}
-                        
-                        {% for error in activity_form.reps.errors %}
-                        <p style="color:red;">
-                            {{ error }}
-                        </p>
-                        {% endfor %}
-                    </div>
+                    <label>Weight Lifted (kg)</label>
+                    {{ activity_form.weight_lifted_kg }}
+                    
+                    {% for error in activity_form.weight_lifted_kg.errors %}
+                    <p style="color:red;">
+                        {{ error }}
+                    </p>
+                    {% endfor %}
                 
                 </div>
-                
-                <label>Weight Lifted (kg)</label>
-                {{ activity_form.weight_lifted_kg }}
-                
-                {% for error in activity_form.weight_lifted_kg.errors %}
-                <p style="color:red;">
-                    {{ error }}
-                </p>
-                
-                {% endfor %}
                 
                 <button type="submit">
                     Add Activity
@@ -376,6 +393,36 @@
         {% endfor %}
 
     </div>
+
+<script>
+
+const activitySelect = document.getElementById("activity-select");
+const gymFields = document.getElementById("gym-fields");
+
+function toggleGymFields(){
+
+    const selected =
+        activitySelect.options[activitySelect.selectedIndex];
+
+    const category =
+        selected.getAttribute("data-category");
+
+    if(category === "Gym"){
+        gymFields.style.display = "block";
+    }
+    else{
+        gymFields.style.display = "none";
+    }
+}
+
+activitySelect.addEventListener(
+    "change",
+    toggleGymFields
+);
+
+toggleGymFields();
+
+</script>
 
 </body>
 
