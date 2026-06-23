@@ -118,7 +118,7 @@ def summary(request):
             duration_hours
         )
         
-        if log.activity.category == "Strength Training":
+        if log.activity.category == "Gym":
             
             strength_bonus = (
                 log.sets *
