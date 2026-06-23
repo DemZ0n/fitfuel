@@ -112,27 +112,31 @@ def summary(request):
         
         duration_hours = log.duration_minutes / 60
         
-        base_calories = (
-            log.activity.met_value *
-            log.body_weight_kg *
-            duration_hours
-        )
-        
         if log.activity.category == "Gym":
             
-            strength_bonus = (
-                log.sets *
-                log.reps *
-                log.weight_lifted_kg *
-                0.01
-            )
-            
-            calories_burned += (
-                base_calories +
-                strength_bonus
-            )
+            if (
+                log.sets > 0 and
+                log.reps > 0 and
+                log.weight_lifted_kg > 0
+                ):
+                
+                calories_burned += (
+                    log.activity.met_value *
+                    log.body_weight_kg *
+                    duration_hours
+                    ) + (
+                        log.sets *
+                        log.reps *
+                        log.weight_lifted_kg *
+                        0.01
+                        )
+                
         else:
-            calories_burned += base_calories
+            calories_burned += (
+                log.activity.met_value *
+                log.body_weight_kg *
+                duration_hours
+                )
 
     net_calories = calories_consumed - calories_burned
 
