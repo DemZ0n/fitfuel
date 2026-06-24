@@ -33,48 +33,76 @@ class ActivityLogForm(forms.ModelForm):
         ]
 
     def clean_duration_minutes(self):
-        duration = self.cleaned_data['duration_minutes']
+        value = self.cleaned_data['duration_minutes']
 
-        if duration <= 0:
+        if value < 1:
             raise forms.ValidationError(
-                "Duration must be greater than 0."
+                "Duration must be at least 1 minute."
             )
 
-        return duration
+        if value > 600:
+            raise forms.ValidationError(
+                "Duration cannot exceed 600 minutes."
+            )
+
+        return value
 
     def clean_body_weight_kg(self):
-        weight = self.cleaned_data['body_weight_kg']
+        value = self.cleaned_data['body_weight_kg']
 
-        if weight <= 0:
+        if value < 20:
             raise forms.ValidationError(
-                "Body weight must be greater than 0."
+                "Body weight must be at least 20 kg."
             )
-        return weight
-    
+
+        if value > 300:
+            raise forms.ValidationError(
+                "Body weight cannot exceed 300 kg."
+            )
+
+        return value
+
     def clean_sets(self):
-        sets = self.cleaned_data['sets']
-        
-        if sets < 0:
+        value = self.cleaned_data['sets']
+
+        if value < 0:
             raise forms.ValidationError(
                 "Sets cannot be negative."
-                )
-        return sets
-        
+            )
+
+        if value > 20:
+            raise forms.ValidationError(
+                "Sets cannot exceed 20."
+            )
+
+        return value
+
     def clean_reps(self):
-        reps = self.cleaned_data['reps']
-        
-        if reps < 0:
+        value = self.cleaned_data['reps']
+
+        if value < 0:
             raise forms.ValidationError(
                 "Reps cannot be negative."
-                )
-        return reps
-    
+            )
+
+        if value > 100:
+            raise forms.ValidationError(
+                "Reps cannot exceed 100."
+            )
+
+        return value
+
     def clean_weight_lifted_kg(self):
-        weight = self.cleaned_data['weight_lifted_kg']
-        
-        if weight < 0:
+        value = self.cleaned_data['weight_lifted_kg']
+
+        if value < 0:
             raise forms.ValidationError(
                 "Weight lifted cannot be negative."
-                )
-            
-        return weight
+            )
+
+        if value > 1000:
+            raise forms.ValidationError(
+                "Weight lifted cannot exceed 1000 kg."
+            )
+
+        return value
